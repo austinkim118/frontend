@@ -1,13 +1,11 @@
 import React, { useState } from "react"
 
 export default function Main() {
-    const [formData, setFormData] = useState(
-        {
-            minutes: "", 
-            seconds: "", 
-            genre: ""
-        }
-    )
+    const [formData, setFormData] = useState({
+        minutes: "", 
+        seconds: "", 
+        genre: ""
+    })
 
     const[createPlaylist, setCreatePlaylist] = useState(true)
 
@@ -110,8 +108,11 @@ export default function Main() {
                 <option value="jazz">Jazz</option>
             </select>
             <div>
+                <label htmlFor="time">Set Time</label>
+                <br />
                 <input 
                     type="text"
+                    id="time"
                     placeholder="Minutes"
                     onChange={handleChange}
                     name="minutes"

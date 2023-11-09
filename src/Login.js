@@ -7,12 +7,11 @@ export default function Login() {
         password: "Kim"
     }
 
-    const [loginInfo, setLoginInfo] = useState(
-        {
-            username: "",
-            password: ""
-        }
-    )
+    const [loginInfo, setLoginInfo] = useState({
+        username: "",
+        password: ""
+    })
+
 
     function handleChange(event) {
         const { name, value } = event.target
