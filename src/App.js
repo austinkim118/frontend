@@ -1,11 +1,15 @@
 import './App.css';
-import Login from './Login';
+import LoginForm from './LoginForm';
 import Main from "./Main"
+import authenticateUser from "./api"
 
 export default function App() {
+  function handleLogin(loginInfo) {
+    return authenticateUser(loginInfo)
+  }
   return (
     <div>
-      <Login />
+      <LoginForm onLogin={handleLogin} />
       <Main />
     </div>
   );

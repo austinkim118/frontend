@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-export default function Login() {
+export default function LoginForm({ onLogin }) {
     // example login info to use in isloginInfoValid()
     const loginData = {
         username: "Austin",
@@ -12,6 +12,7 @@ export default function Login() {
         password: ""
     })
 
+    const [errorMessage, setErrorMessage] = useState("")
 
     function handleChange(event) {
         const { name, value } = event.target
@@ -38,14 +39,12 @@ export default function Login() {
     }
 
     function displayError(errorMessage) {
-        const warning = document.createElement('div')
-        warning.innerHTML = errorMessage
-        document.body.appendChild(warning)
+        setErrorMessage(errorMessage)
 
         // Set a timeout to remove the error message after a certain duration (e.g., 5 seconds)
         setTimeout(() => {      // built-in function --> syntax = setTimeout(function, delay) --> 
                                 // function - function to be executed after specified delay (in miliseconds, 1000 = 1sec) 
-            document.body.removeChild(warning)
+            setErrorMessage("")
         }, 2000)
     }
 
@@ -57,11 +56,11 @@ export default function Login() {
 
         if (isloginInfoValid(loginInfo)) {
             console.log("login successful")
-            return true
         } else {
             console.log("login failed")
-            return false
         }
+        // authenticateUser() in api.js -- onLogin passed in as props from App.js
+        onLogin(loginInfo)
     }
 
     return (
@@ -93,6 +92,7 @@ export default function Login() {
                     autoComplete="off"
                 />
             </div>
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
             <button>Log In</button>
         </form>
     )
