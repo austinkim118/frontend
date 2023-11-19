@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { getCsrfToken, authenticateUser } from "./api"
+import { useNavigate } from "react-router-dom"
 
 export default function LoginForm() {
+    const navigate = useNavigate()
     // example login info to use in isloginInfoValid()
     const loginData = {
         username: "Austin",
@@ -36,6 +38,8 @@ export default function LoginForm() {
     async function handleSubmit(event) {
         event.preventDefault()
 
+        if (!isloginInfoValid(loginInfo)) return
+
         try {
             const response = await authenticateUser(loginInfo.username, loginInfo.password, csrfToken);
       
@@ -43,25 +47,19 @@ export default function LoginForm() {
             if (response.authenticated) {
               console.log('Login Successful!');
               // Perform actions for authenticated user
+              navigate('/main')
             } else {
               console.log('Login failed...');
               // Handle authentication failure
+              setLoginInfo(() => ({
+                username: "",
+                password: ""
+              }))
+              displayError('Authentication failed... Please check your credentials.')
             }
           } catch (error) {
             console.error('API call error:', error);
           }
-
-        // console.log(loginInfo.username)
-        // console.log(loginInfo.password)
-        
-        // // authenticateUser() in api.js -- onLogin passed in as props from App.js
-        // // onLogin(loginInfo)
-
-        // if (isloginInfoValid(loginInfo)) {
-        //     console.log("login successful")
-        // } else {
-        //     console.log("login failed")
-        // }
     }
 
     function isloginInfoValid(loginInfo) {
@@ -69,14 +67,7 @@ export default function LoginForm() {
         if (username === "" || password === "") {
             displayError('Please fill in the required fields')
             return false
-        } else if (username !== loginData.username || password !== loginData.password) {
-            displayError('Login Failed...Please try again')
-            setLoginInfo(() => ({
-                username: "",
-                password: ""
-            }))
-            return false
-        }
+        } 
         return true
     }
 

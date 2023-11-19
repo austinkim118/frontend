@@ -1,5 +1,6 @@
 import './App.css';
-import LoginForm from './LoginForm';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginForm from './LoginForm'
 import Main from "./Main"
 // import authenticateUser from "./api"
 
@@ -9,9 +10,11 @@ export default function App() {
   // }
 
   return (
-    <div>
-      <LoginForm />
-      <Main />
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<LoginForm />} />
+        <Route path='/main' element={<Main />} />
+      </Routes>
+    </Router>
   );
 }
