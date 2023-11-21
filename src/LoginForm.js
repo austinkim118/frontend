@@ -4,11 +4,6 @@ import { useNavigate } from "react-router-dom"
 
 export default function LoginForm() {
     const navigate = useNavigate()
-    // example login info to use in isloginInfoValid()
-    const loginData = {
-        username: "Austin",
-        password: "Kim"
-    }
 
     const [loginInfo, setLoginInfo] = useState({
         username: "",

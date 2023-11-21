@@ -38,3 +38,21 @@ export async function authenticateUser(username, password, csrfToken) {
         throw error
     }
 }
+
+export async function isAuthenticatedSptify() {
+    const response = await fetch(`${BASE_URL}/spotify/is-authenticated/`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    const data = await response.json()
+    return data.status
+}
+
+export async function authenticateSpotify() {
+    const response = await fetch(`${BASE_URL}/spotify/get-auth-url/`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    const data = await response.json()
+    window.location.replace(data.url)
+}
