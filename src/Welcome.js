@@ -1,17 +1,17 @@
 import React, { useState } from "react"
-import { isAuthenticatedSptify, authenticateSpotify } from "./api"
+import { isAuthenticatedSpotify, authenticateSpotify, getCsrfToken, getSpotifyTokens } from "./api"
 
 export default function Welcome() {
     const [status, setStatus] = useState(false)
 
-    function handleClick(event) {
+    async function handleClick(event) {
         event.preventDefault()
 
-        authenticateSpotify()
+        await authenticateSpotify()
 
-        // setStatus(isAuthenticatedSptify())
+        // setStatus(isAuthenticatedSpotify())
 
-        // if (status) {
+        // if (!status) {
         //     authenticateSpotify()
         // }
     }

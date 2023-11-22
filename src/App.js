@@ -11,14 +11,14 @@ export default function App() {
   // }
 
   return (
-    <div>
-      <Welcome />
-    </div>
-    // <Router>
-    //   <Routes>
-    //     <Route path='/' element={<LoginForm />} />
-    //     <Route path='/main' element={<Main />} />
-    //   </Routes>
-    // </Router>
+    // <div>
+    //   <Welcome />
+    // </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Welcome />} />
+        <Route path='/main' element={<Main />} />
+      </Routes>
+    </Router>
   );
 }

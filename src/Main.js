@@ -1,14 +1,32 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { getCsrfToken } from "./api"
+import { useParams } from "react-router-dom"
 
 export default function Main() {
+    // extract 'code' from return URL
+    const { code } = useParams()
+
     const [formData, setFormData] = useState({
         minutes: "", 
         seconds: "", 
         genre: ""
     })
 
+    const [errorMessage, setErrorMessage] = useState("")
+    const [csrfToken, setCsrfToken] = useState("")
     const[createPlaylist, setCreatePlaylist] = useState(true)
 
+    // fetch CSRF Token from backend to make POST requests
+    useEffect(() => {
+        async function fetchCsrfToken() {
+            const token = await getCsrfToken()
+            setCsrfToken(token)
+        }
+
+        fetchCsrfToken()
+    }, [])
+
+    // update user inputs
     function handleChange(event) {
         const { name, value } = event.target
         setFormData(prevFormData => ({
@@ -17,12 +35,15 @@ export default function Main() {
         }))
     }
 
+    // create plyalist
     function handleCreate() {
         setCreatePlaylist(prevCreatePlaylist => prevCreatePlaylist ? false : prevCreatePlaylist)
     }
 
+    // Check if User input is valid -- all fields filled
     function isFormDataValid(formData) {
-        if (!formData.genre || !formData.minutes || !formData.seconds) {
+        const { genre, minutes, seconds } = formData
+        if (!genre || !minutes || !seconds) {
             displayError('Please fill in the required fields')
             return false
         }
@@ -30,17 +51,16 @@ export default function Main() {
     }
 
     function displayError(errorMessage) {
-        const warning = document.createElement('div')
-        warning.innerHTML = errorMessage
-        document.body.appendChild(warning)
+        setErrorMessage(errorMessage)
 
         // Set a timeout to remove the error message after a certain duration (e.g., 5 seconds)
         setTimeout(() => {      // built-in function --> syntax = setTimeout(function, delay) --> 
                                 // function - function to be executed after specified delay (in miliseconds, 1000 = 1sec) 
-            document.body.removeChild(warning)
+            setErrorMessage("")
         }, 2000)
     }
 
+    // 
     function handleSubmit(event) {
         event.preventDefault()
         // this prevents web to refresh as default
@@ -128,6 +148,7 @@ export default function Main() {
                     autoComplete="off"
                 />
             </div>
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
             <button>Create playlist</button>
         </form>
     )

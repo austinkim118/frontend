@@ -39,7 +39,8 @@ export async function authenticateUser(username, password, csrfToken) {
     }
 }
 
-export async function isAuthenticatedSptify() {
+// check if user has been authenticated, meaning not first time user. Retrieve info from database
+export async function isAuthenticatedSpotify() {
     const response = await fetch(`${BASE_URL}/spotify/is-authenticated/`, {
         method: 'GET',
         credentials: 'include'
@@ -48,6 +49,7 @@ export async function isAuthenticatedSptify() {
     return data.status
 }
 
+// if first time user, authenticate the user and store in database
 export async function authenticateSpotify() {
     const response = await fetch(`${BASE_URL}/spotify/get-auth-url/`, {
         method: 'GET',
@@ -56,3 +58,17 @@ export async function authenticateSpotify() {
     const data = await response.json()
     window.location.replace(data.url)
 }
+
+///// send POST request with token info included in URL used to be redirected after Spotify authentication
+///// 
+// export async function getSpotifyTokens(csrfToken, code) {
+//     const response = await fetch(`${BASE_URL}/spotify/redirect/`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRFToken': csrfToken
+//         },
+//         body: JSON.stringify({ code }),
+//         credentials: 'include'
+//     })
+// }
