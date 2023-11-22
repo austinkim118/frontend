@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { getCsrfToken, authenticateUser } from "./api"
+import { getCsrfToken, authenticateUser } from "../utils/api"
 import { useNavigate } from "react-router-dom"
 
 export default function LoginForm() {

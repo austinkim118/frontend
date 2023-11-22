@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { isAuthenticatedSpotify, authenticateSpotify, getCsrfToken, getSpotifyTokens } from "./api"
+import { isAuthenticatedSpotify, authenticateSpotify, getCsrfToken, getSpotifyTokens } from "../utils/api"
 
 export default function Welcome() {
     const [status, setStatus] = useState(false)

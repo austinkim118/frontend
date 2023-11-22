@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { getCsrfToken } from "./api"
+import { getCsrfToken } from "../utils/api"
 import { useParams } from "react-router-dom"
 
 export default function Main() {

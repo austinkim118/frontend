@@ -1,8 +1,7 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginForm from './LoginForm'
-import Main from "./Main"
-import Welcome from './Welcome'
+import LoginForm from './components/LoginForm'
+import Main from "./components/Main"
+import Welcome from './components/Welcome'
 // import authenticateUser from "./api"
 
 export default function App() {
