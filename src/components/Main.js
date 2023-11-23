@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react"
 import { getCsrfToken } from "../utils/api"
-import { useParams } from "react-router-dom"
 
 export default function Main() {
-    // extract 'code' from return URL
-    const { code } = useParams()
-
-    const [formData, setFormData] = useState({
-        minutes: "", 
-        seconds: "", 
-        genre: ""
-    })
-
-    const [errorMessage, setErrorMessage] = useState("")
-    const [csrfToken, setCsrfToken] = useState("")
-    const[createPlaylist, setCreatePlaylist] = useState(true)
-
     // fetch CSRF Token from backend to make POST requests
+    const [csrfToken, setCsrfToken] = useState("")
+
     useEffect(() => {
         async function fetchCsrfToken() {
             const token = await getCsrfToken()
@@ -25,6 +13,15 @@ export default function Main() {
 
         fetchCsrfToken()
     }, [])
+
+    // STATES
+    const [formData, setFormData] = useState({
+        minutes: "", 
+        seconds: "", 
+        genre: ""
+    })
+    const [errorMessage, setErrorMessage] = useState("")
+    const [createPlaylist, setCreatePlaylist] = useState(true)
 
     // update user inputs
     function handleChange(event) {

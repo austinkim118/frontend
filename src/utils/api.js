@@ -58,17 +58,3 @@ export async function authenticateSpotify() {
     const data = await response.json()
     window.location.replace(data.url)
 }
-
-///// send POST request with token info included in URL used to be redirected after Spotify authentication
-///// 
-// export async function getSpotifyTokens(csrfToken, code) {
-//     const response = await fetch(`${BASE_URL}/spotify/redirect/`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRFToken': csrfToken
-//         },
-//         body: JSON.stringify({ code }),
-//         credentials: 'include'
-//     })
-// }
