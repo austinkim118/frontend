@@ -17,7 +17,7 @@ export default function Welcome() {
     }
 
     return (
-        <div>
+        <div className="welcome-container">
             <h1>Welcome!</h1>
             <button onClick={handleClick}>
                 Start Session

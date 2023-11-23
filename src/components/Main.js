@@ -111,7 +111,7 @@ export default function Main() {
             // End of Simulation Code
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="main-container">
             <h1>My First Project</h1>
             <label htmlFor="genre">Which genre(s) do you want to explore?</label>
             <br />
