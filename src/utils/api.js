@@ -58,3 +58,12 @@ export async function authenticateSpotify() {
     const data = await response.json()
     window.location.replace(data.url)
 }
+
+export async function topItemsSpotify() {
+    const response = await fetch(`${BASE_URL}/spotify/top-items`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    const data = await response.json()
+    return data.response
+}

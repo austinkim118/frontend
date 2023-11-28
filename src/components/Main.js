@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { getCsrfToken } from "../utils/api"
+import { getCsrfToken, topItemsSpotify } from "../utils/api"
 
 export default function Main() {
     // fetch CSRF Token from backend to make POST requests
@@ -105,9 +105,15 @@ export default function Main() {
         document.body.appendChild(link)
     }
 
+    async function getTopItems() {
+        const topItems = await topItemsSpotify()
+        console.log(topItems.items[0]['genres'])
+    }
+
             // End of Simulation Code
 
     return (
+        <div>
         <form onSubmit={handleSubmit} className="main-container">
             <h1>My First Project</h1>
             <label htmlFor="genre">Which genre(s) do you want to explore?</label>
@@ -148,5 +154,7 @@ export default function Main() {
             {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
             <button>Create playlist</button>
         </form>
+        <button onClick={getTopItems}>Top Items</button>
+        </div>
     )
 }

@@ -1,12 +1,19 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { isAuthenticatedSpotify, authenticateSpotify } from "../utils/api"
 
 export default function Welcome() {
+    const navigate = useNavigate()
+
     async function handleClick(event) {
         event.preventDefault()
 
         const isAuthenticated = await isAuthenticatedSpotify()
-        if (isAuthenticated) {
+        console.log(isAuthenticated)
+        if (!isAuthenticated) {
             authenticateSpotify()
+        } else {
+            navigate('/main')
         }
     }
 
