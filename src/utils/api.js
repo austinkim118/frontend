@@ -59,11 +59,13 @@ export async function authenticateSpotify() {
     window.location.replace(data.url)
 }
 
-export async function topItemsSpotify() {
-    const response = await fetch(`${BASE_URL}/spotify/top-items`, {
+// Run when 'Create Playlist' buttons clicked -- triggers playlist creation in backend
+//// IMPORTANT -- should be a PUSH request -- pushing user inputs (most importantly Minutes and Seconds / but later many genres)
+export async function createPlaylist() {
+    const response = await fetch(`${BASE_URL}/spotify/create-playlist`, {
         method: 'GET',
         credentials: 'include'
     })
     const data = await response.json()
-    return data.response
+    return data.url
 }
