@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isAuthenticatedSpotify, authenticateSpotify } from "../utils/api"
+import '../styles/welcome.css'
 
 export default function Welcome() {
     const navigate = useNavigate()

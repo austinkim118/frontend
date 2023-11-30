@@ -1,0 +1,8 @@
+.welcome-container {
+    text-align: center;
+}
+
+.welcome-container h1,
+.welcome-container button {
+    margin: 2px;
+}

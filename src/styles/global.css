@@ -1,5 +1,5 @@
 body, h1, h2, div {
-    margin: 0;
+    margin: 1rem;
     padding: 0;
     border: 0;
     font-family: sans-serif;
@@ -26,13 +26,4 @@ button {
 button:hover {
     background-color: #191414;
     color: #1DB954; 
-}
-
-.welcome-container {
-    text-align: center;
-}
-
-.welcome-container h1,
-.welcome-container button {
-    margin: 2px;
 }

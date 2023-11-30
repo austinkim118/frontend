@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { getCsrfToken, createPlaylist } from "../utils/api"
+import '../styles/main.css'
 
 export default function Main() {
     // fetch CSRF Token from backend to make POST requests
@@ -76,21 +77,23 @@ export default function Main() {
         <div>
             <form onSubmit={handleSubmit} className="main-container">
                 <h1>My First Project</h1>
-                <label htmlFor="genre">Which genre(s) do you want to explore?</label>
-                <br />
-                <select 
-                    id="genre"
-                    value={formData.genre}
-                    onChange={handleChange}
-                    name="genre"
-                >
-                    <option value="">--Choose Genre--</option>
-                    <option value="hiphop">Hip-Hop</option>
-                    <option value="kpop">K-Pop</option>
-                    <option value="classical">Classical</option>
-                    <option value="jazz">Jazz</option>
-                </select>
-                <div>
+                <div className="main-genre">
+                    <label htmlFor="genre">Which genre(s) do you want to explore?</label>
+                    <br />
+                    <select 
+                        id="genre"
+                        value={formData.genre}
+                        onChange={handleChange}
+                        name="genre"
+                    >
+                        <option value="">--Choose Genre--</option>
+                        <option value="hiphop">Hip-Hop</option>
+                        <option value="kpop">K-Pop</option>
+                        <option value="classical">Classical</option>
+                        <option value="jazz">Jazz</option>
+                    </select>
+                </div>
+                <div className="main-time">
                     <label htmlFor="time">Set Time</label>
                     <br />
                     <input 
@@ -112,9 +115,9 @@ export default function Main() {
                     />
                 </div>
                 {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-                <button>Create Playlist</button>
+                <button className="main-button">Create Playlist</button>
             </form>
-            {playlistUrl && <button onClick={() => window.location.href = playlistUrl}>Play on Spotify</button>}
+            {playlistUrl && <button onClick={() => window.location.href = playlistUrl} className="main-button">Play on Spotify</button>}
         </div>
     )
 }
