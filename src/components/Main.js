@@ -36,8 +36,11 @@ export default function Main() {
     // Check if User input is valid -- all fields filled
     function isFormDataValid(formData) {
         const { genre, minutes, seconds } = formData
-        if (!genre || !minutes || !seconds) {
+        if (!genre || !minutes) {
             displayError('Please fill in the required fields')
+            return false
+        } else if (!Number(minutes) || !Number(seconds) || Number(minutes) > 60 || Number(seconds) > 60) {
+            displayError('Invalid input. Please try again')
             return false
         }
         return true

@@ -10,7 +10,6 @@ export default function Welcome() {
         event.preventDefault()
 
         const isAuthenticated = await isAuthenticatedSpotify()
-        console.log(isAuthenticated)
         if (!isAuthenticated) {
             authenticateSpotify()
         } else {
