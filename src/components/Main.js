@@ -39,7 +39,10 @@ export default function Main() {
         if (!genre || !minutes) {
             displayError('Please fill in the required fields')
             return false
-        } else if (!Number(minutes) || !Number(seconds) || Number(minutes) > 60 || Number(seconds) > 60) {
+        } else if (!Number(minutes) || Number(minutes) > 60) {
+            displayError('Invalid input. Please try again')
+            return false
+        } else if (Number(seconds) !== 0 && Number(seconds) > 60) {
             displayError('Invalid input. Please try again')
             return false
         }
@@ -63,7 +66,11 @@ export default function Main() {
 
         if (isFormDataValid(formData)) {
             try {
-                const newPlaylistUrl = await createPlaylist();
+                const { minutes, seconds } = formData
+                const duration = Number(minutes) * 60000 + Number(seconds) * 1000
+
+                const newPlaylistUrl = await createPlaylist(duration, csrfToken);
+                console.log(newPlaylistUrl)
                 
                 // Update playlistUrl using the callback form of setPlaylistUrl
                 setPlaylistUrl(prevUrl => {
@@ -75,6 +82,23 @@ export default function Main() {
             }
         }
     }
+
+    // async function spotifyPlaylistDuration(event) {
+    //     event.preventDefault()
+
+    //     if (isFormDataValid(formData)) {
+    //         try {
+    //             const { minutes, seconds } = formData
+    //             const duration = Number(minutes) * 60000 + Number(seconds) * 1000
+    //             console.log(duration)
+    //             console.log(csrfToken)
+    //             const playlistRecommendations = await playlistDuration(duration, csrfToken)
+    //             console.log(playlistRecommendations)
+    //         } catch (error) {
+    //             console.error("Error creating playlist:", error)
+    //         }
+    //     }
+    // }
 
     return (
         <div>
@@ -121,6 +145,7 @@ export default function Main() {
                 <button className="main-button">Create Playlist</button>
             </form>
             {playlistUrl && <button onClick={() => window.location.href = playlistUrl} className="main-button">Play on Spotify</button>}
+            {/* <button onClick={spotifyPlaylistDuration} className="main-button">Playlist Duration</button> */}
         </div>
     )
 }

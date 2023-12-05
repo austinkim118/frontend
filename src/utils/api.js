@@ -14,30 +14,30 @@ export async function getCsrfToken() {
     }
 }
 
-export async function authenticateUser(username, password, csrfToken) {
-    try {
-        const response = await fetch(`${BASE_URL}/api/authenticate/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify({ username, password }),
-            credentials: 'include'
-        })
+// export async function authenticateUser(username, password, csrfToken) {
+//     try {
+//         const response = await fetch(`${BASE_URL}/api/authenticate/`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRFToken': csrfToken
+//             },
+//             body: JSON.stringify({ username, password }),
+//             credentials: 'include'
+//         })
 
-        if (!response.ok) {
-            console.log(response)
-            console.error(`Authentication failed with status ${response.status}: ${response.statusText}`);
-        }
+//         if (!response.ok) {
+//             console.log(response)
+//             console.error(`Authentication failed with status ${response.status}: ${response.statusText}`);
+//         }
 
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.log('Error authenticating user:', error)
-        throw error
-    }
-}
+//         const data = await response.json()
+//         return data
+//     } catch (error) {
+//         console.log('Error authenticating user:', error)
+//         throw error
+//     }
+// }
 
 // check if user has been authenticated, meaning not first time user. Retrieve info from database
 export async function isAuthenticatedSpotify() {
@@ -61,11 +61,53 @@ export async function authenticateSpotify() {
 
 // Run when 'Create Playlist' buttons clicked -- triggers playlist creation in backend
 //// IMPORTANT -- should be a PUSH request -- pushing user inputs (most importantly Minutes and Seconds / but later many genres)
-export async function createPlaylist() {
-    const response = await fetch(`${BASE_URL}/spotify/create-playlist`, {
-        method: 'GET',
-        credentials: 'include'
-    })
-    const data = await response.json()
-    return data.url
+export async function createPlaylist(duration, csrfToken) {
+    try {
+        const response = await fetch(`${BASE_URL}/spotify/create-playlist/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ duration }),
+            credentials: 'include'
+        })
+
+        if (!response.ok) {
+            console.log(response)
+            console.error(`Playlist creation failed with status ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json()
+        return data.url
+    } catch (error) {
+        console.log('Error creating playlist:', error)
+        throw error
+    }
+    
 }
+
+// export async function playlistDuration(duration, csrfToken) {
+//     try {
+//         const response = await fetch(`${BASE_URL}/spotify/user-recommendations/`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRFToken': csrfToken
+//             },
+//             body: JSON.stringify({ duration }),
+//             credentials: 'include'
+//         })
+
+//         if (!response.ok) {
+//             console.log(response)
+//             console.error(`Recommendation failed with status ${response.status}: ${response.statusText}`);
+//         }
+
+//         const data = await response.json()
+//         return data
+//     } catch (error) {
+//         console.log('Error Playlist Duration:', error)
+//         throw error
+//     }
+// }
