@@ -14,6 +14,20 @@ export async function getCsrfToken() {
     }
 }
 
+export async function getUsername() {
+    try {
+        const response = await fetch(`${BASE_URL}/spotify/username/`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        const data = await response.json()
+        return data.username
+    } catch (error) {
+        console.log('Error fetching Spotify Username:', error)
+        throw error
+    }
+}
+
 // export async function authenticateUser(username, password, csrfToken) {
 //     try {
 //         const response = await fetch(`${BASE_URL}/api/authenticate/`, {

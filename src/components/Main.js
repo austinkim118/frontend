@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { getCsrfToken, createPlaylist } from "../utils/api"
+import { getCsrfToken, createPlaylist, getUsername } from "../utils/api"
 import '../styles/main.css'
+import Navbar from './Navbar'
 
 export default function Main() {
     // fetch CSRF Token from backend to make POST requests
@@ -13,6 +14,17 @@ export default function Main() {
         }
 
         fetchCsrfToken()
+    }, [])
+
+    const [username, setUsername] = useState("")
+
+    useEffect(() => {
+        async function fetchUsername() {
+            const username = await getUsername()
+            setUsername(username)
+        }
+
+        fetchUsername()
     }, [])
 
     // STATES
@@ -102,8 +114,9 @@ export default function Main() {
 
     return (
         <div>
+            <Navbar />
             <form onSubmit={handleSubmit} className="main-container">
-                <h1>My First Project</h1>
+                <h1>Hello, {username}! </h1>
                 <div className="main-genre">
                     <label htmlFor="genre">Which genre(s) do you want to explore?</label>
                     <br />
