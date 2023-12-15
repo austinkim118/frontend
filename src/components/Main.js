@@ -57,6 +57,9 @@ export default function Main() {
         } else if (Number(seconds) !== 0 && Number(seconds) > 60) {
             displayError('Invalid input. Please try again')
             return false
+        } else if (Number(minutes) <= 5) {
+            displayError('Playlist must be longer than 5 minutes')
+            return false
         }
         return true
     }
@@ -94,23 +97,6 @@ export default function Main() {
             }
         }
     }
-
-    // async function spotifyPlaylistDuration(event) {
-    //     event.preventDefault()
-
-    //     if (isFormDataValid(formData)) {
-    //         try {
-    //             const { minutes, seconds } = formData
-    //             const duration = Number(minutes) * 60000 + Number(seconds) * 1000
-    //             console.log(duration)
-    //             console.log(csrfToken)
-    //             const playlistRecommendations = await playlistDuration(duration, csrfToken)
-    //             console.log(playlistRecommendations)
-    //         } catch (error) {
-    //             console.error("Error creating playlist:", error)
-    //         }
-    //     }
-    // }
 
     return (
         <div>

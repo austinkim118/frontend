@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Main from "./components/Main"
 import Welcome from './components/Welcome'
-import Navbar from './components/Navbar';
 // import authenticateUser from "./api"
 
 export default function App() {
