@@ -28,13 +28,21 @@ export default function Main() {
     }, [])
 
     // STATES
-    const [formData, setFormData] = useState({
-        minutes: "", 
-        seconds: "", 
+    const defaultFormData = {
+        minutes: "",
+        seconds: "",
         genre: ""
-    })
+    };
+
+    const [formData, setFormData] = useState(defaultFormData)
     const [errorMessage, setErrorMessage] = useState("")
     const [playlistUrl, setPlaylistUrl] = useState("")
+    const [isButtonClicked, setIsButtonClicked] = useState(false)
+
+    // reset Form data
+    function resetFormData() {
+        setFormData(defaultFormData)
+    }
 
     // update user inputs
     function handleChange(event) {
@@ -53,12 +61,15 @@ export default function Main() {
             return false
         } else if (!Number(minutes) || Number(minutes) > 60) {
             displayError('Invalid input. Please try again')
+            resetFormData()
             return false
         } else if (Number(seconds) !== 0 && Number(seconds) > 60) {
             displayError('Invalid input. Please try again')
+            resetFormData()
             return false
         } else if (Number(minutes) <= 5) {
             displayError('Playlist must be longer than 5 minutes')
+            resetFormData()
             return false
         }
         return true
@@ -79,28 +90,44 @@ export default function Main() {
         event.preventDefault()
         // this prevents web to refresh as default
 
-        if (isFormDataValid(formData)) {
-            try {
-                const { minutes, seconds } = formData
-                const duration = Number(minutes) * 60000 + Number(seconds) * 1000
+        if (!isButtonClicked) {
+            if (isFormDataValid(formData)) {
+                try {
+                    const { minutes, seconds } = formData
+                    const duration = Number(minutes) * 60000 + Number(seconds) * 1000
+    
+                    const newPlaylistUrl = await createPlaylist(duration, csrfToken);
+                    console.log(newPlaylistUrl)
 
-                const newPlaylistUrl = await createPlaylist(duration, csrfToken);
-                console.log(newPlaylistUrl)
-                
-                // Update playlistUrl using the callback form of setPlaylistUrl
-                setPlaylistUrl(prevUrl => {
-                    console.log("New playlist:", newPlaylistUrl);
-                    return newPlaylistUrl;
-                });
-            } catch (error) {
-                console.error("Error creating playlist:", error);
+                    setIsButtonClicked(true)
+                    
+                    // Update playlistUrl using the callback form of setPlaylistUrl
+                    setPlaylistUrl(prevUrl => {
+                        console.log("New playlist:", newPlaylistUrl);
+                        return newPlaylistUrl;
+                    });
+                    resetFormData()
+                } catch (error) {
+                    console.error("Error creating playlist:", error);
+                }
             }
+        } else {
+            displayError('Playlist already created')
         }
+    }
+
+    // opens playlist on spotify in new tab
+    // resets playlisturl so the button disappears
+    // window.location.href = 'url' ==> replaced by window.open(playlistUrl, '_blank)
+    function handlePlaylist() {
+        setIsButtonClicked(false)
+        window.open(playlistUrl, '_blank')
+        setPlaylistUrl("")
     }
 
     return (
         <div>
-            <Navbar />
+            <Navbar token={csrfToken} />
             <form onSubmit={handleSubmit} className="main-container">
                 <h1>Hello, {username}! </h1>
                 <div className="main-genre">
@@ -143,7 +170,8 @@ export default function Main() {
                 {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
                 <button className="main-button">Create Playlist</button>
             </form>
-            {playlistUrl && <button onClick={() => window.location.href = playlistUrl} className="main-button">Play on Spotify</button>}
+            
+            {playlistUrl && <button onClick={handlePlaylist} className="main-button">Play on Spotify</button>}
             {/* <button onClick={spotifyPlaylistDuration} className="main-button">Playlist Duration</button> */}
         </div>
     )

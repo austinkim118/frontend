@@ -70,11 +70,12 @@ export async function authenticateSpotify() {
         credentials: 'include'
     })
     const data = await response.json()
+    console.log(data)
     window.location.replace(data.url)
 }
 
 // Run when 'Create Playlist' buttons clicked -- triggers playlist creation in backend
-//// IMPORTANT -- should be a PUSH request -- pushing user inputs (most importantly Minutes and Seconds / but later many genres)
+//// IMPORTANT -- should be a POST request -- pushing user inputs (most importantly Minutes and Seconds / but later many genres)
 export async function createPlaylist(duration, csrfToken) {
     try {
         const response = await fetch(`${BASE_URL}/spotify/create-playlist/`, {
@@ -101,27 +102,26 @@ export async function createPlaylist(duration, csrfToken) {
     
 }
 
-// export async function playlistDuration(duration, csrfToken) {
-//     try {
-//         const response = await fetch(`${BASE_URL}/spotify/user-recommendations/`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'X-CSRFToken': csrfToken
-//             },
-//             body: JSON.stringify({ duration }),
-//             credentials: 'include'
-//         })
+export async function userLogout(csrfToken) {
+    try {
+        const response = await fetch(`${BASE_URL}/spotify/logout/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'include'
+        })
 
-//         if (!response.ok) {
-//             console.log(response)
-//             console.error(`Recommendation failed with status ${response.status}: ${response.statusText}`);
-//         }
+        if (!response.ok) {
+            console.log(response)
+            console.error(`Recommendation failed with status ${response.status}: ${response.statusText}`);
+        }
 
-//         const data = await response.json()
-//         return data
-//     } catch (error) {
-//         console.log('Error Playlist Duration:', error)
-//         throw error
-//     }
-// }
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.log('Error User Logout:', error)
+        throw error
+    }
+}
