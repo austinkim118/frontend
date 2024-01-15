@@ -34,7 +34,7 @@ export default function Main() {
         genre: ""
     };
 
-    const [mode, setMode] = useState("")
+    const [mode, setMode] = useState(null)
     const [formData, setFormData] = useState(defaultFormData)
     const [errorMessage, setErrorMessage] = useState("")
     const [playlistUrl, setPlaylistUrl] = useState("")
@@ -46,8 +46,9 @@ export default function Main() {
     }
 
     // reset Form data
-    function resetFormData() {
+    function resetInput() {
         setFormData(defaultFormData)
+        setMode(null)
     }
 
     // update user inputs
@@ -61,21 +62,21 @@ export default function Main() {
 
     // Check if User input is valid -- all fields filled
     function isFormDataValid(formData) {
-        const { genre, minutes, seconds } = formData
-        if (!genre || !minutes) {
+        const { minutes, seconds } = formData
+        if (!mode | !minutes) {
             displayError('Please fill in the required fields')
             return false
         } else if (!Number(minutes) || Number(minutes) > 60) {
             displayError('Invalid input. Please try again')
-            resetFormData()
+            resetInput()
             return false
         } else if (Number(seconds) !== 0 && Number(seconds) > 60) {
             displayError('Invalid input. Please try again')
-            resetFormData()
+            resetInput()
             return false
         } else if (Number(minutes) <= 5) {
             displayError('Playlist must be longer than 5 minutes')
-            resetFormData()
+            resetInput()
             return false
         }
         return true
@@ -101,8 +102,13 @@ export default function Main() {
                 try {
                     const { minutes, seconds } = formData
                     const duration = Number(minutes) * 60000 + Number(seconds) * 1000
+
+                    const requestBody = {
+                        duration: duration,
+                        mode: mode
+                    }
     
-                    const newPlaylistUrl = await createPlaylist(duration, csrfToken);
+                    const newPlaylistUrl = await createPlaylist(requestBody, csrfToken);
                     console.log(newPlaylistUrl)
 
                     setIsButtonClicked(true)
@@ -112,7 +118,7 @@ export default function Main() {
                         console.log("New playlist:", newPlaylistUrl);
                         return newPlaylistUrl;
                     });
-                    resetFormData()
+                    resetInput()
                 } catch (error) {
                     console.error("Error creating playlist:", error);
                 }
@@ -155,14 +161,14 @@ export default function Main() {
                 <div className="mode-container">
                     <button
                         onClick={() => handleMode('artist')}
-                        className={mode === 'artist' ? 'mode-button' : ''}
+                        className={`mode-button ${mode === 'artist' ? 'mode-selected' : ''}`}
                         disabled={mode === 'artist'}
                     >
                         Artist
                     </button>
                     <button
                         onClick={() => handleMode('genre')}
-                        className={mode === 'genre' ? 'mode-button' : ''}
+                        className={`mode-button ${mode === 'genre' ? 'mode-selected' : ''}`}
                         disabled={mode === 'genre'}
                     >
                         Genre

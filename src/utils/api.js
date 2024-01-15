@@ -76,7 +76,7 @@ export async function authenticateSpotify() {
 
 // Run when 'Create Playlist' buttons clicked -- triggers playlist creation in backend
 //// IMPORTANT -- should be a POST request -- pushing user inputs (most importantly Minutes and Seconds / but later many genres)
-export async function createPlaylist(duration, csrfToken) {
+export async function createPlaylist(requestBody, csrfToken) {
     try {
         const response = await fetch(`${BASE_URL}/spotify/create-playlist/`, {
             method: 'POST',
@@ -84,7 +84,7 @@ export async function createPlaylist(duration, csrfToken) {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken
             },
-            body: JSON.stringify({ duration }),
+            body: JSON.stringify(requestBody),
             credentials: 'include'
         })
 
