@@ -9,3 +9,7 @@ nav {
     justify-content: flex-end;
     align-items: center;
 }
+
+.navbar-button {
+  border-radius: 5px;
+}

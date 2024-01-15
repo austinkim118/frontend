@@ -18,7 +18,7 @@ export default function Navbar(props) {
         // closes the tab in 0.5 seconds
         setTimeout(() => {
             logoutTab.close();
-          }, 100);
+          }, 50);
 
         navigate('/')
     }

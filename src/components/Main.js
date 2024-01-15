@@ -34,10 +34,16 @@ export default function Main() {
         genre: ""
     };
 
+    const [mode, setMode] = useState("")
     const [formData, setFormData] = useState(defaultFormData)
     const [errorMessage, setErrorMessage] = useState("")
     const [playlistUrl, setPlaylistUrl] = useState("")
     const [isButtonClicked, setIsButtonClicked] = useState(false)
+
+    // update mode
+    function handleMode(mode) {
+        setMode(mode)
+    }
 
     // reset Form data
     function resetFormData() {
@@ -130,7 +136,7 @@ export default function Main() {
             <Navbar token={csrfToken} />
             <form onSubmit={handleSubmit} className="main-container">
                 <h1>Hello, {username}! </h1>
-                <div className="main-genre">
+                {/* <div className="main-genre">
                     <label htmlFor="genre">Which genre(s) do you want to explore?</label>
                     <br />
                     <select 
@@ -145,11 +151,27 @@ export default function Main() {
                         <option value="classical">Classical</option>
                         <option value="jazz">Jazz</option>
                     </select>
+                </div> */}
+                <div className="mode-container">
+                    <button
+                        onClick={() => handleMode('artist')}
+                        className={mode === 'artist' ? 'mode-button' : ''}
+                        disabled={mode === 'artist'}
+                    >
+                        Artist
+                    </button>
+                    <button
+                        onClick={() => handleMode('genre')}
+                        className={mode === 'genre' ? 'mode-button' : ''}
+                        disabled={mode === 'genre'}
+                    >
+                        Genre
+                    </button>
                 </div>
                 <div className="main-time">
-                    <label htmlFor="time">Set Time</label>
-                    <br />
+                    <label htmlFor="time">For How Long?</label>
                     <input 
+                        className="duration-button"
                         type="text"
                         id="time"
                         placeholder="Minutes"
@@ -159,6 +181,7 @@ export default function Main() {
                         autoComplete="off"  // If on, when click on input box, previous inputs pop up as suggestions or autofill
                     />
                     <input 
+                        className="duration-button"
                         type="text"
                         placeholder="Seconds"
                         onChange={handleChange}

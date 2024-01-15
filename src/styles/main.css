@@ -1,4 +1,32 @@
+body button {
+    border-radius: 25px;
+}
+
 .main-button {
     margin-left: 1rem;
     margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.mode-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.mode-button {
+    background-color: #191414;
+    color: #1DB954;
+    padding: 1rem 4rem;
+}
+
+input {
+    margin-left: 1rem;
+    padding: 8px;
+    border: 2px solid rgb(163, 163, 163);
+    border-radius: 5px;
+}
+
+input:focus {
+    outline: none;
+    border-color: black;
 }
