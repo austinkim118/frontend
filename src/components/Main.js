@@ -138,7 +138,7 @@ export default function Main() {
     }
 
     return (
-        <div>
+        <div className="main">
             <Navbar token={csrfToken} />
             <form onSubmit={handleSubmit} className="main-container">
                 <h1>Hello, {username}! </h1>
@@ -175,7 +175,7 @@ export default function Main() {
                     </button>
                 </div>
                 <div className="main-time">
-                    <label htmlFor="time">For How Long?</label>
+                    <label htmlFor="time">How Long?</label>
                     <input 
                         className="duration-button"
                         type="text"
@@ -201,7 +201,6 @@ export default function Main() {
             </form>
             
             {playlistUrl && <button onClick={handlePlaylist} className="main-button">Play on Spotify</button>}
-            {/* <button onClick={spotifyPlaylistDuration} className="main-button">Playlist Duration</button> */}
         </div>
     )
 }
